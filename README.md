@@ -12,7 +12,7 @@
 
 <br>
 
-![Bagan](https://github.com/ferryhusnil/tugas-2-pbp/blob/main/assets/images/bagan.jpg)
+![Bagan](https://github.com/ferryhusnil/tugas-2-pbp/blob/main/assets/images/bagan.png)
 > Referensi: https://python.plainenglish.io/the-mvt-design-pattern-of-django-8fd47c61f582
 <br>
 
