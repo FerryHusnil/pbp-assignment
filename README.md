@@ -106,6 +106,29 @@ def show_katalog(request):
   {% endfor %}
 ```
 
+> Tambahkan unit test pada `tests.py` untuk menguji ketiga endpoint apakah mengembalikan respon `HTTP 200 OK`.
+
+```python
+from django.test import TestCase
+
+# Create your tests here.
+class MyWatchlistTests(TestCase):
+    def test_html_endpoint(self):
+        resp = self.client.get("/mywatchlist/html/")
+        self.assertEqual(resp.status_code, 200)
+
+    def test_xml_endpoint(self):
+        resp = self.client.get("/mywatchlist/xml/")
+        print(resp)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_json_endpoint(self):
+        resp = self.client.get("/mywatchlist/json/")
+        self.assertEqual(resp.status_code, 200)
+```
+
+> Setelah itu tes aplikasi dengan menggunakan command `python manage.py test` untuk menguji apakah tes berhasil.
+
 > Deploy menggunakan platform Heroku. Login ke Heroku lalu copy `API-KEY` yang ada pada profile Heroku. Lalu buat aplikasi baru tempat untuk push django project. Setelah itu, pergi ke settings yang ada di repository github. Kemudian menuju ke `Settings -> Secrets -> Actions` dan tambahkan dua variabel `repository secret` beserta value nya yaitu.
 
 ```
@@ -247,3 +270,17 @@ HEROKU_APP_NAME: <NAMA_APLIKASI_HEROKU_ANDA>
 ```
 
 > Setelah workflow dijalankan, maka website sudah sukses terdeploy.
+
+## Screenshot Postman
+
+> - HTML
+
+![HTML](https://github.com/ferryhusnil/tugas-2-pbp/blob/main/assets/images/html.png)
+
+> - XML
+
+![XML](https://github.com/ferryhusnil/tugas-2-pbp/blob/main/assets/images/xml.png)
+
+> - JSON
+
+![JSON](https://github.com/ferryhusnil/tugas-2-pbp/blob/main/assets/images/json.png)
