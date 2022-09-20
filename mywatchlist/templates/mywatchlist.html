@@ -1,0 +1,38 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="wrapper">
+  <h1>Tugas 3 PBP</h1>
+
+  <div class="credential-wrapper">
+    <div>
+      <h5>Name:</h5>
+      <p>{{name}}</p>
+    </div>
+
+    <div>
+      <h5>Student ID:</h5>
+      <p>{{student_id}}</p>
+    </div>
+  </div>
+
+  <table class="table-mywatchlist">
+    <tr>
+      <th>Title</th>
+      <th>Rating</th>
+      <th>Release Date</th>
+      <th>Watched</th>
+      <th>Review</th>
+    </tr>
+    {% for item in data_mywatchlist_item %}
+    <tr>
+      <td>{{item.title}}</td>
+      <td>{{item.rating}}</td>
+      <td>{{item.release_date}}</td>
+      <td>{{item.watched}}</td>
+      <td>{{item.review}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock content %}

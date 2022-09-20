@@ -1,0 +1,112 @@
+[
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 1,
+        "fields": {
+            "watched": true,
+            "title": "Boku no Pico Academia",
+            "rating": 5,
+            "release_date": "2006-09-07",
+            "review": "Sangat layak ditonton untuk wibu pemula."
+        }
+    },
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 2,
+        "fields": {
+            "watched": true,
+            "title": "Kebohonganmu di Bulan April",
+            "rating": 4,
+            "release_date": "2014-04-11",
+            "review": "Krah krah🤠🤠"
+        }
+    },
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 3,
+        "fields": {
+            "watched": false,
+            "title": "LycoReco",
+            "rating": 3,
+            "release_date": "2022-07-02",
+            "review": "Yuri sedap sedap sedap."
+        }
+    },
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 4,
+        "fields": {
+            "watched": true,
+            "title": "Kimi no Udin",
+            "rating": 5,
+            "release_date": "2006-09-07",
+            "review": "udin"
+        }
+    },
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 5,
+        "fields": {
+            "watched": true,
+            "title": "Takagi-san",
+            "rating": 3,
+            "release_date": "2018-01-11",
+            "review": "suka bermain osu dengan nama ilolslayer6969"
+        }
+    },
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 6,
+        "fields": {
+            "watched": true,
+            "title": "Takagi-san S2",
+            "rating": 4,
+            "release_date": "2019-09-22",
+            "review": "ilolslayer6969 membeli keyboard baru, siap menuju 5 digit"
+        }
+    },
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 7,
+        "fields": {
+            "watched": true,
+            "title": "Takagi-san S3",
+            "rating": 5,
+            "release_date": "2022-03-26",
+            "review": "ilolslayer6969 tiap hari push rank sampai rank 76k"
+        }
+    },
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 8,
+        "fields": {
+            "watched": false,
+            "title": "Takagi-san Movie",
+            "rating": 5,
+            "release_date": "2022-06-10",
+            "review": "ilolslayer menjadi top global osu"
+        }
+    },
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 9,
+        "fields": {
+            "watched": false,
+            "title": "Genshin Impact",
+            "rating": 5,
+            "release_date": "2022-02-22",
+            "review": "Yoimiya is waifu"
+        }
+    },
+    {
+        "model": "mywatchlist.MyWatchList",
+        "pk": 10,
+        "fields": {
+            "watched": true,
+            "title": "Violet Evergrande",
+            "rating": 5,
+            "release_date": "2018-01-18",
+            "review": "gatau kenapa evergrande"
+        }
+    }
+]
