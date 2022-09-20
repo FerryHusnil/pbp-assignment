@@ -29,7 +29,7 @@
             "title": "LycoReco",
             "rating": 3,
             "release_date": "2022-07-02",
-            "review": "Yuri sedap sedap sedap."
+            "review": "chisato ❤️❤️❤️"
         }
     },
     {
@@ -49,20 +49,20 @@
         "fields": {
             "watched": true,
             "title": "Takagi-san",
-            "rating": 3,
+            "rating": 5,
             "release_date": "2018-01-11",
-            "review": "suka bermain osu dengan nama ilolslayer6969"
+            "review": "sangat bagus untuk menghalu"
         }
     },
     {
         "model": "mywatchlist.MyWatchList",
         "pk": 6,
         "fields": {
-            "watched": true,
-            "title": "Takagi-san S2",
+            "watched": false,
+            "title": "The Godfather",
             "rating": 4,
-            "release_date": "2019-09-22",
-            "review": "ilolslayer6969 membeli keyboard baru, siap menuju 5 digit"
+            "release_date": "1972-03-24",
+            "review": "Sangat bagus untuk mengenal dunia mafia"
         }
     },
     {
@@ -70,10 +70,10 @@
         "pk": 7,
         "fields": {
             "watched": true,
-            "title": "Takagi-san S3",
+            "title": "Shawshank Redemption",
             "rating": 5,
-            "release_date": "2022-03-26",
-            "review": "ilolslayer6969 tiap hari push rank sampai rank 76k"
+            "release_date": "1994-09-23",
+            "review": "menarik untuk ditonton"
         }
     },
     {
@@ -81,10 +81,10 @@
         "pk": 8,
         "fields": {
             "watched": false,
-            "title": "Takagi-san Movie",
+            "title": "Pulp Fiction",
             "rating": 5,
-            "release_date": "2022-06-10",
-            "review": "ilolslayer menjadi top global osu"
+            "release_date": "1994-10-14",
+            "review": "film yang sangat bagus"
         }
     },
     {
