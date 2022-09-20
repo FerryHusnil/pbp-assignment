@@ -33,6 +33,10 @@ p {
     background-color: #d6defa;
 }
 
+.table-mywatchlist tr:hover {
+    background-color: #b5c4fc;
+}
+
 .table-mywatchlist th {
     background-color: #3112b8;
     color: white;
