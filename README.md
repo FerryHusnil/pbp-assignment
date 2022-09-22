@@ -4,7 +4,7 @@
 
 ---
 
-> [Deployed Web](https://tugas-2-pbp-ferryhusnil.herokuapp.com/katalog/)
+> [Deployed Web](https://ferryhusnil-pbp-assignment.herokuapp.com/katalog/)
 
 ---
 
@@ -12,7 +12,7 @@
 
 <br>
 
-![Bagan](https://github.com/ferryhusnil/tugas-2-pbp/blob/main/assets/images/bagan.png)
+![Bagan](https://github.com/ferryhusnil/pbp-assignment/blob/main/assets/images/bagan.png)
 
 > Referensi: https://python.plainenglish.io/the-mvt-design-pattern-of-django-8fd47c61f582 > <br>
 
@@ -146,11 +146,11 @@ HEROKU_APP_NAME: <NAMA_APLIKASI_HEROKU_ANDA>
 
 ## Live Web
 
-> [HTML page](https://tugas-2-pbp-ferryhusnil.herokuapp.com/mywatchlist/html)
+> [HTML page](https://ferryhusnil-pbp-assignment.herokuapp.com/mywatchlist/html)
 
-> [XML page](https://tugas-2-pbp-ferryhusnil.herokuapp.com/mywatchlist/xml)
+> [XML page](https://ferryhusnil-pbp-assignment.herokuapp.com/mywatchlist/xml)
 
-> [JSON page](https://tugas-2-pbp-ferryhusnil.herokuapp.com/mywatchlist/json)
+> [JSON page](https://ferryhusnil-pbp-assignment.herokuapp.com/mywatchlist/json)
 
 ---
 
@@ -275,12 +275,12 @@ HEROKU_APP_NAME: <NAMA_APLIKASI_HEROKU_ANDA>
 
 > - HTML
 
-![HTML](https://github.com/ferryhusnil/tugas-2-pbp/blob/main/assets/images/html.png)
+![HTML](https://github.com/ferryhusnil/pbp-assignment/blob/main/assets/images/html.png)
 
 > - XML
 
-![XML](https://github.com/ferryhusnil/tugas-2-pbp/blob/main/assets/images/xml.png)
+![XML](https://github.com/ferryhusnil/pbp-assignment/blob/main/assets/images/xml.png)
 
 > - JSON
 
-![JSON](https://github.com/ferryhusnil/tugas-2-pbp/blob/main/assets/images/json.png)
+![JSON](https://github.com/ferryhusnil/pbp-assignment/blob/main/assets/images/json.png)
