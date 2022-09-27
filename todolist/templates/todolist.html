@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<h5>Halo,</h5>
+<p>{{username}}!</p>
+<br>
+{% if created %}
+<table>
+  <tr>
+    <th>Time Created</th>
+    <th>Title</th>
+    <th>Description</th>
+  </tr>
+  {% for task in tasks %}
+  <tr>
+    <th>{{task.date}}</th>
+    <th>{{task.title}}</th>
+    <th>{{task.description}}</th>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>Kamu belum punya todo list, yukk mulai buat!</p>
+{% endif %}
+<button><a href="{% url 'todolist:create_task' %}">Buat task!</a></button>
+<button><a href="{% url 'todolist:logout' %}">Logout</a></button>
+
+{% endblock content %}
