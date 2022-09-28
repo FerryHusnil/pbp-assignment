@@ -23,14 +23,27 @@ def create_task(request):
             task = form.save(commit=False)
             task.user = auth_models.User.objects.get(pk=request.user.id)
             task.save()
-            print("sudah bikin task")
-            print(Task.objects.all())
             messages.success(request, "Task Created Successfully")
             return redirect("todolist:show_todolist")
     else:
         form = TaskForm()
     context = {"form": form}
     return render(request, "create_task.html", context)
+
+@login_required(login_url="/todolist/login")
+def update_task(request, pk):
+    task = Task.objects.get(pk=pk)
+    task.is_finished = not task.is_finished
+    task.save()
+    messages.success(request, "Status Update Successfully")
+    return redirect("todolist:show_todolist")
+
+@login_required(login_url="/todolist/login")
+def delete_task(request, pk):
+    task = Task.objects.get(pk=pk)
+    task.delete()
+    messages.success(request, "Task Deleted Successfully")
+    return redirect("todolist:show_todolist")
 
 def register(request):
     if request.method == "POST":

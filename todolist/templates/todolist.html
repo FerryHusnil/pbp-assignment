@@ -8,12 +8,18 @@
     <th>Time Created</th>
     <th>Title</th>
     <th>Description</th>
+    <th>Finish</th>
+    <th>Update Status</th>
+    <th>Delete Task</th>
   </tr>
   {% for task in tasks %}
   <tr>
-    <th>{{task.date}}</th>
-    <th>{{task.title}}</th>
-    <th>{{task.description}}</th>
+    <td>{{task.date}}</td>
+    <td>{{task.title}}</td>
+    <td>{{task.description}}</td>
+    <td>{{task.is_finished}}</td>
+    <td><button><a href="{% url 'todolist:update_task' task.pk %}">Update</a></button></td>
+    <td><button><a href="{% url 'todolist:delete_task' task.pk %}">Delete</a></button></td>
   </tr>
   {% endfor %}
 </table>
@@ -22,5 +28,13 @@
 {% endif %}
 <button><a href="{% url 'todolist:create_task' %}">Buat task!</a></button>
 <button><a href="{% url 'todolist:logout' %}">Logout</a></button>
+
+{% if messages %}  
+    <ul>   
+        {% for message in messages %}  
+            <li>{{ message }}</li>  
+        {% endfor %}  
+    </ul>   
+{% endif %}
 
 {% endblock content %}
