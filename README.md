@@ -307,9 +307,9 @@ HEROKU_APP_NAME: <NAMA_APLIKASI_HEROKU_ANDA>
 
 <br>
 
-## Cara membuat elemen <form> secara manual
+## Cara membuat elemen `<form>` secara manual
 
-> Untuk membuat form pada django, disediakan generator seperti `{{ form.as_table }}` yang berguna untuk menggenerate tampilan form input HTML yang bersesuaian dengan field yang ada pada model database. Namun, kita juga bisa membuat `<form>` secara manual dengan menulis masing-masing elemen yang diperlukan dalam pembuatan form HTML. Yang pertama adalah elemen `<input>` beserta attribute nya yang penting yaitu `name` untuk key dari payload HTTP POST request beserta `type` untuk jenis input yang diberikan (seperti text atau radio button). Dimasing-masing `<input>` biasanya ditambahkan `<label>` untuk melabeli masing-masing input agar user-friendly dengan tambahan attribut `for` yang berfungsi merujuk dari `id` dari input yang ingin ditunjuk.
+> Untuk membuat form pada django, disediakan generator seperti `{{ form.as_table }}` yang berguna untuk menggenerate tampilan form input HTML dengan format elemen `<table>` yang bersesuaian dengan field yang ada pada model database. Namun, kita juga bisa membuat `<form>` secara manual dengan menulis masing-masing elemen yang diperlukan dalam pembuatan form HTML. Yang pertama adalah elemen `<input>` beserta attribute nya yang penting yaitu `name` untuk key dari payload HTTP POST request beserta `type` untuk jenis input yang diberikan (seperti text atau radio button). Dimasing-masing `<input>` biasanya ditambahkan `<label>` untuk melabeli masing-masing input agar user-friendly dengan tambahan attribut `for` yang berfungsi merujuk menuju `id` dari input yang ingin ditunjuk.
 
 <br>
 
@@ -347,7 +347,7 @@ def show_todolist(request):
 
 
 
-> Buat model baru `Task` di `models.py` dan tambahkan foreign key `User` dan lakukan migration untuk mengupdate schema yang ada pada database.
+> Buat model baru `Task` di `models.py` dengan menambahkan attribute foreign key `User` dan lakukan migration untuk mengupdate schema yang ada pada database.
 
 ```python
 from django.contrib.auth import models as auth_models
@@ -498,7 +498,7 @@ def logout_user(request):
 > Berikut ini adalah 2 akun dummy yang telah dibuat
 
 ```
-user: pass
+<Username>: <Password>
 
 johndoe: 6vGfFCNubNzNdna
 janedoe: 9VdSHLpE4WQpz57
