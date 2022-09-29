@@ -284,3 +284,222 @@ HEROKU_APP_NAME: <NAMA_APLIKASI_HEROKU_ANDA>
 > - JSON
 
 ![JSON](https://github.com/ferryhusnil/pbp-assignment/blob/main/assets/images/json.png)
+
+# Tugas 4: Pengimplementasian Form dan Autentikasi Menggunakan Django
+
+> Pemrograman Berbasis Platform (CSGE602022) - diselenggarakan oleh Fakultas Ilmu Komputer Universitas Indonesia, Semester Ganjil 2022/2023
+
+---
+
+## Live Web
+
+> [Web](https://ferryhusnil-pbp-assignment.herokuapp.com/todolist/)
+
+---
+
+## Kegunaan CSRF token
+
+> CSRF (Cross Site Request Forgery) token adalah suatu nilai yang bersifat rahasia, unik, dan tidak bisa diprediksi yang digenerate melalui server. CSRF token memiliki tujuan utama agar request yang dijalankan oleh server merupakan request dari client yang valid, sehingga dapat menangani CSRF attack. `{% csrf_token %}` pada Django berguna untuk menggenerate CSRF token pada form HTML yang nilainya akan dikirim melalui post request HTTP. Berikut ini bagaimana CSRF token terdapat di halaman HTML
+
+```HTML
+<input type="hidden" name="csrfmiddlewaretoken" value="4NDwoCWHg9DxnTXeNtlPZ4uUyL9oJHa6ODRcQt2wgoFresXjvbBwl6XUXQwJcSEq">
+```
+
+<br>
+
+## Cara membuat elemen <form> secara manual
+
+> Untuk membuat form pada django, disediakan generator seperti `{{ form.as_table }}` yang berguna untuk menggenerate tampilan form input HTML yang bersesuaian dengan field yang ada pada model database. Namun, kita juga bisa membuat `<form>` secara manual dengan menulis masing-masing elemen yang diperlukan dalam pembuatan form HTML. Yang pertama adalah elemen `<input>` beserta attribute nya yang penting yaitu `name` untuk key dari payload HTTP POST request beserta `type` untuk jenis input yang diberikan (seperti text atau radio button). Dimasing-masing `<input>` biasanya ditambahkan `<label>` untuk melabeli masing-masing input agar user-friendly dengan tambahan attribut `for` yang berfungsi merujuk dari `id` dari input yang ingin ditunjuk.
+
+<br>
+
+## Proses alur data submisi
+
+> Ketika pengguna mengsubmit form, client akan melakukan HTTP POST request dengan payload yang berisi key yang bersesuaian dengan attribute yang ada pada model beserta key `csrfmiddlewaretoken` agar server dapat memvalidasi bahwa HTTP request yang dikirim berasal dari client yang valid. Sebagai contoh perhatikan gambar berikut:
+
+![Bagan](https://github.com/ferryhusnil/pbp-assignment/blob/main/assets/images/4-contoh-payload.png)
+
+> Setelah request dikirim, kemudian server akan menghandle dengan menyesuaikan url dari request dan diteruskan menuju view. Berikut ini, potongan kode yang akan menyimpan record baru menuju database yang terdapat pada fungsi `create_task`
+
+```python
+if form.is_valid():
+    task = form.save(commit=False)
+    task.user = auth_models.User.objects.get(pk=request.user.id)
+    task.save()
+    messages.success(request, "Task Created Successfully")
+    return redirect("todolist:show_todolist")
+```
+
+> Dari potongan kode tersebut juga dapat diketahui proses yang akan dilakukan setelah menyimpan record baru yang ada di database, yaitu view akan meredirect menuju page `show_todolist` untuk menampilkan semua task yang memiliki foreign key user sekarang yang sedang mengakses.
+
+```python
+def show_todolist(request):
+    tasks = Task.objects.filter(user=request.user)
+    username = request.user.username
+    created = True if len(tasks) else False
+    context = {"tasks": tasks, "created": created, "username": username}
+    return render(request, "todolist.html", context)
+```
+
+## Implementasi
+
+> Pertama buat aplikasi baru `todolist` dan tambahkan pada `INSTALLED_APPS` yang ada di `settings.py`
+
+
+
+> Buat model baru `Task` di `models.py` dan tambahkan foreign key `User` dan lakukan migration untuk mengupdate schema yang ada pada database.
+
+```python
+from django.contrib.auth import models as auth_models
+
+# Create your models here.
+class Task(models.Model):
+    user = models.ForeignKey(auth_models.User, on_delete=models.CASCADE)
+    date = models.DateField(default=datetime.datetime.now())
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    is_finished = models.BooleanField(default=False)
+```
+
+> Buat `TaskForm` yang bersesuaian attribut yang terdapat pada model `Task` untuk form yang akan ditampilkan di template dan yang akan membuat record model baru yang akan disimpan di database.
+
+```python
+from django.forms import ModelForm
+from todolist.models import Task
+
+class TaskForm(ModelForm):
+    class Meta:
+        model = Task;
+        fields = ["title", "description"]
+```
+
+> Definisikan routing yang terdapat pada aplikasi yang terdapat pada `urls.py` di aplikasi `todolist`
+
+```python
+# TODO: Implement Routings Here
+from django.urls import path
+from todolist.views import show_todolist, create_task, update_task, delete_task, register, login_user, logout_user
+
+app_name = "todolist"
+
+urlpatterns = [
+    path("", show_todolist, name="show_todolist"),
+    path("register", register, name="register"),
+    path("login", login_user, name="login"),
+    path("logout", logout_user, name="logout"),
+    path("create-task", create_task, name="create_task"),
+    path("update-task/<int:pk>", update_task, name="update_task"),
+    path("delete-task/<int:pk>", delete_task, name="delete_task"),
+]
+```
+
+> Tambahkan juga routing untuk aplikasi todolist di `urls.py` yang ada pada `project_django`
+
+```python
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("example_app.urls")),
+    path("katalog/", include("katalog.urls")),
+    path("mywatchlist/", include("mywatchlist.urls")),
+    path("todolist/", include("todolist.urls")),
+]
+```
+
+> Buat function pada `views.py` untuk menghandle logic dari app yang bersesuaian dengan routing.
+
+```python
+from django.shortcuts import render, redirect
+from todolist.forms import TaskForm
+from todolist.models import Task
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout, models as auth_models
+from django.contrib.auth.decorators import login_required
+
+# Create your views here.
+@login_required(login_url="/todolist/login")
+def show_todolist(request):
+    tasks = Task.objects.filter(user=request.user)
+    username = request.user.username
+    created = True if len(tasks) else False
+    context = {"tasks": tasks, "created": created, "username": username}
+    return render(request, "todolist.html", context)
+
+@login_required(login_url="/todolist/login")
+def create_task(request):
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user = auth_models.User.objects.get(pk=request.user.id)
+            task.save()
+            messages.success(request, "Task Created Successfully")
+            return redirect("todolist:show_todolist")
+    else:
+        form = TaskForm()
+    context = {"form": form}
+    return render(request, "create_task.html", context)
+
+@login_required(login_url="/todolist/login")
+def update_task(request, pk):
+    task = Task.objects.get(pk=pk)
+    task.is_finished = not task.is_finished
+    task.save()
+    messages.success(request, "Status Update Successfully")
+    return redirect("todolist:show_todolist")
+
+@login_required(login_url="/todolist/login")
+def delete_task(request, pk):
+    task = Task.objects.get(pk=pk)
+    task.delete()
+    messages.success(request, "Task Deleted Successfully")
+    return redirect("todolist:show_todolist")
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Account Created Successfully")
+            return redirect("todolist:login")
+    else:
+        form = UserCreationForm()
+    context = {"form": form}
+    return render(request, "register.html", context)
+
+def login_user(request):
+    if request.method == "POST":
+        form  = UserCreationForm(request.POST)
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("todolist:show_todolist")
+        else:
+            messages.info(request, "Username or Password is incorrect")
+    else:
+        form = UserCreationForm()
+    context = {"form": form}
+    return render(request, "login.html", context)
+
+def logout_user(request):
+    logout(request)
+    return redirect("todolist:login")
+```
+
+> Perhatikan bahwa pada function `show_todolist`, `create_task`, `update_task`, dan `delete_task` terdapat decorator `@login_required(login_url="/todolist/login")` yang berguna agar view tersebut mengharuskan client untuk melakukan autentikasi terlebih dahulu untuk mengakses view bagian tersebut.
+
+> Push commit ke github dan website otomatis akan terdeploy ke Heroku berdasarkan settingan tugas sebelumnya.
+
+> Berikut ini adalah 2 akun dummy yang telah dibuat
+
+```
+user: pass
+
+johndoe: 6vGfFCNubNzNdna
+janedoe: 9VdSHLpE4WQpz57
+```
