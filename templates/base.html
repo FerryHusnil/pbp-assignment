@@ -17,13 +17,13 @@
   <body class="bg-neutral">
     <div class="navbar bg-neutral shadow-md font-bold">
       <div class="navbar-start ml-5">
-        <a class="btn btn-ghost normal-case text-xl"
+        <a class="btn btn-ghost normal-case text-xs md:text-xl"
           >Mohammad Ferry Husnil Arif - PBP E</a
         >
       </div>
       <div class="navbar-end mr-5">
         {% if user.is_authenticated %}
-        <a href="{% url 'todolist:logout' %}" role="button" class="btn btn-primary btn-sm text-sm md:btn-md md:text-base">Logout</a>
+        <a href="{% url 'todolist:logout' %}" role="button" class="btn btn-primary btn-xs text-xs md:btn-md md:text-base">Logout</a>
         {% endif %}
       </div>
     </div>
