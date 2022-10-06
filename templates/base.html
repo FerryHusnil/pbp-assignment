@@ -1,18 +1,32 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="night">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block meta %} {% endblock meta %}
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  {% block meta %}
-  {% endblock meta %}
-</head>
-
-<body>
-  {% block content %}
-  {% endblock content %}
-</body>
-
+  <body class="bg-neutral">
+    <div class="navbar bg-neutral shadow-md font-bold">
+      <div class="navbar-start ml-5">
+        <a class="btn btn-ghost normal-case text-xl"
+          >Mohammad Ferry Husnil Arif - PBP E</a
+        >
+      </div>
+      <div class="navbar-end mr-5">
+        {% if user.is_authenticated %}
+        <a href="{% url 'todolist:logout' %}" role="button" class="btn btn-primary btn-sm text-sm md:btn-md md:text-base">Logout</a>
+        {% endif %}
+      </div>
+    </div>
+    {% block content %} {% endblock content %}
+  </body>
 </html>

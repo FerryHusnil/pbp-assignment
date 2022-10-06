@@ -1,30 +1,100 @@
-{% extends 'base.html' %}
-
-{% block meta %}
+{% extends 'base.html' %} {% block meta %}
 <title>Create task</title>
-{% endblock meta %}
+{% endblock meta %} {% block content %}
 
-{% block content %}
+<main class="max-w-screen min-h-screen flex flex-col items-center mt-10">
+  {% if messages %}
+  <div class="w-2/3 max-w-sm">
+    <ul>
+      {% for message in messages %}
+      <div class="alert alert-info shadow-lg py-2">
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="stroke-current flex-shrink-0 w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <span>{{message}}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  <div
+    class="w-2/3 h-5/6 max-w-sm my-14 flex flex-col items-center border border-none rounded-xl shadow-xl bg-neutral-800"
+  >
+    <div class="mt-3 mr-3 flex self-end">
+      <a
+        role="button"
+        href="{% url 'todolist:show_todolist' %}"
+        class="btn btn-square btn-sm"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+          />
+        </svg>
+      </a>
+    </div>
+    <form
+      method="POST"
+      class="w-3/4 flex flex-col items-center gap-y-3 text-xl"
+    >
+      {% csrf_token %}
 
-<h1>Create Task</h1>
+      <h1 class="text-2xl md:text-3xl font-bold">Create Task</h1>
 
-<form method="post">
-    {% csrf_token %}
-    <table>
-        {{ form }}
-        <tr>
-            <td></td>
-            <td><input type="submit" name="submit" value="Create" /></td>
-          </tr>
-    </table>
-</form>
-
-{% if messages %}  
-    <ul>   
-        {% for message in messages %}  
-            <li>{{ message }}</li>  
-        {% endfor %}  
-    </ul>   
-{% endif %}
-
+      <div
+        class="flex flex-col items-start gap-y-1 w-full text-sm md:text-base"
+      >
+        <label for="id_title" class="font-bold">Title</label>
+        <input
+          class="input input-bordered w-full"
+          type="text"
+          name="title"
+          placeholder="add title"
+          maxlength="50"
+          required=""
+          id="id_title"
+        />
+      </div>
+      <div
+        class="flex flex-col items-start gap-y-1 w-full text-sm md:text-base"
+      >
+        <label for="id_description" class="font-bold">Description</label>
+        <textarea
+          class="textarea textarea-bordered w-full h-60"
+          name="description"
+          placeholder="add description"
+          maxlength="1000"
+          required=""
+          id="id_description"
+        ></textarea>
+      </div>
+      <div class="mb-5 flex justify-end w-full">
+        <label role="button" class="btn btn-sm text-sm md:btn-md md:text-base"
+          ><button type="submit" class="w-full uppercase">create</button></label
+        >
+      </div>
+    </form>
+  </div>
+</main>
 {% endblock content %}

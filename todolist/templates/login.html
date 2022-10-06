@@ -1,46 +1,88 @@
-{% extends 'base.html' %} 
-
-{% block meta %}
+{% extends 'base.html' %} {% block meta %}
 <title>Registrasi Akun</title>
-{% endblock meta %}
+{% endblock meta %} {% block content %}
+<main
+  class="min-h-screen max-w-screen flex flex-col gap-y-3 items-center mt-14"
+>
+  {% if messages %}
+  <div class="w-2/3 max-w-sm">
+    <ul>
+      {% for message in messages %}
+      <div class="alert alert-info shadow-lg py-2">
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="stroke-current flex-shrink-0 w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <span>{{message}}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  <div
+    class="w-2/3 h-5/6 max-w-sm flex flex-col items-center border border-none rounded-xl shadow-xl bg-neutral-800"
+  >
+    <form
+      method="POST"
+      class="w-3/4 mt-7 flex flex-col items-center gap-y-5 text-xl"
+    >
+      {% csrf_token %}
 
-{% block content %}
+      <h1 class="text-2xl md:text-3xl font-bold">Login</h1>
 
-<h1>Login</h1>
-
-<form method="POST" action="">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>Username:</td>
-        <td>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            class="form-control"
-          />
-        </td>
-      </tr>
-
-      <tr>
-        <td>Password:</td>
-        <td>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            class="form-control"
-          />
-        </td>
-      </tr>
-
-      <tr>
-        <td></td>
-        <td><input class="btn login_btn" type="submit" value="Login" /></td>
-      </tr>
-    </table>
-</form>
+      <div
+        class="flex flex-col items-start gap-y-1 w-full text-sm md:text-base"
+      >
+        <label for="id_username" class="font-bold">Username</label>
+        <input
+          class="input input-bordered w-full"
+          type="text"
+          name="username"
+          placeholder="username"
+          maxlength="50"
+          required=""
+          id="id_username"
+        />
+      </div>
+      <div
+        class="flex flex-col items-start gap-y-1 w-full text-sm md:text-base"
+      >
+        <label for="id_password" class="font-bold">Password</label>
+        <input
+          class="input input-bordered w-full"
+          type="password"
+          name="password"
+          placeholder="password"
+          maxlength="50"
+          required=""
+          id="id_password"
+        />
+      </div>
+      <label role="button" class="w-full mb-5 btn text-sm md:text-base"
+        ><button type="submit" class="w-full uppercase">login</button></label
+      >
+      <p class="mb-3 text-sm">
+        Belum mempunyai akun?
+        <a
+          href="{% url 'todolist:register' %}"
+          class="hover:underline text-blue-700"
+          >Buat Akun</a
+        >
+      </p>
+    </form>
+  </div>
+</main>
 
 {% if messages %}
 <ul>
@@ -48,8 +90,4 @@
   <li>{{ message }}</li>
   {% endfor %}
 </ul>
-{% endif %}
-
-Belum mempunyai akun? <a href="{% url 'todolist:register' %}">Buat Akun</a>
-
-{% endblock content %}
+{% endif %} {% endblock content %}

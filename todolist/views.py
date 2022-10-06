@@ -24,7 +24,6 @@ def create_task(request):
             task.user = auth_models.User.objects.get(pk=request.user.id)
             task.save()
             messages.success(request, "Task Created Successfully")
-            return redirect("todolist:show_todolist")
     else:
         form = TaskForm()
     context = {"form": form}
@@ -52,6 +51,8 @@ def register(request):
             form.save()
             messages.success(request, "Account Created Successfully")
             return redirect("todolist:login")
+        else:
+            messages.error(request, "Failed Create Account")
     else:
         form = UserCreationForm()
     context = {"form": form}
@@ -67,7 +68,7 @@ def login_user(request):
             login(request, user)
             return redirect("todolist:show_todolist")
         else:
-            messages.info(request, "Username or Password is incorrect")
+            messages.error(request, "Username or Password is incorrect")
     else:
         form = UserCreationForm()
     context = {"form": form}

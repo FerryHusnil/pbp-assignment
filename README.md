@@ -503,3 +503,154 @@ def logout_user(request):
 johndoe: 6vGfFCNubNzNdna
 janedoe: 9VdSHLpE4WQpz57
 ```
+
+# Tugas 5: Web Design Using HTML, CSS, and CSS Framework
+
+> Pemrograman Berbasis Platform (CSGE602022) - diselenggarakan oleh Fakultas Ilmu Komputer Universitas Indonesia, Semester Ganjil 2022/2023
+
+---
+
+## Live Web
+
+> [Web](https://ferryhusnil-pbp-assignment.herokuapp.com/todolist/)
+
+---
+
+## Perbedaan dari Inline, Internal, dan External CSS
+
+> - Inline
+
+```HTML
+<button style="padding:20px;background-color:red">click here!</button>
+```
+
+> menggunakan CSS secara langsung pada elemen yang ada di HTML. Keunggulannya adalah cepat untuk melakukan prototyping dan simple test tanpa perlu mengedit file .css. Sedangkan kekurangannya adalah terlalu memakan banyak memori serta tidak reusable antar halaman
+
+> - Internal
+
+```HTML
+<button style="padding:20px;background-color:red">click here!</button>
+```
+
+> Menggunakan CSS secara langsung pada elemen yang ada di HTML. Keunggulannya adalah cepat untuk melakukan prototyping dan simple test tanpa perlu mengedit file .css. Sedangkan kekurangannya adalah terlalu memakan banyak memori serta tidak reusable antar halaman
+
+```HTML
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  background-color: linen;
+}
+
+h1 {
+  color: maroon;
+  margin-left: 40px;
+}
+</style>
+</head>
+<body>
+
+<h1>This is a heading</h1>
+<p>This is a paragraph.</p>
+
+</body>
+</html>
+```
+
+> Menggunakan CSS dengan mendefinisikan dalam `<style>` elemen yang terdapat pada bagian `<head>` dalam suatu page HTML. Keunggulannya adalah sama seperti kasus inline yaitu mudah untuk protyping, ditambah dengan kemudahan untuk meletakan kode yang sudah jadi menuju external file ketika template sudah jadi. Kekurangannya adalah ketika terlalu banyak elemennt dan selector, maka akan cukup bingung untuk mentrace styling css bekerja.
+
+> - External
+
+```CSS
+body {
+  background-color: lightblue;
+}
+
+h1 {
+  color: navy;
+  margin-left: 20px;
+}
+```
+
+> Menggunakan file CSS terpisah dan ekstensi .css. Keunggulannya adalah file reusable untuk berbagai macam page serta cacheable sehingga dapat mengurangi bandwith yang dibutuhkan. Kekurangannya adalah terkadang sulit untuk mentrace bagaimana styling css bekerja. Karena jika penulisan selector yang kurang jelas maka berpotensi memunculkan konflik sehingga styling CSS tidak sesuai dengan keinginan.
+
+## Tag HTML5
+
+> - `<!DOCTYPE>` mendeklarasikan tipe document yang kita buat
+> - `<html>` merupakan root dari HTML, semua elemen HTML yang kita tulis harus berada dalam elemen HTML
+> - `<head>` merupakan bagian dari metadata
+> - `<body>` merupakan bagian HTML yang ditampilkan dalam web
+> - `<h1>` sampai `<h6>` mendefinisikan heading dari HTML, semakin besar angkanya semakin kecil ukurannya
+> - `<p>` mendefinisikan sebuah paragraf
+> - `<img>` mendefinisikan suatu gambar
+> - `<form>` mendefinisikan suatu HTML form untuk input dari user
+> - `<input>` mendefinisikan input control
+> - `<table>` mendefinisikan suatu table
+> - `<tr>` mendefinisikan row dari suatu table
+> - `<th>` mendefinisikan header cell dari suatu table
+> - `<td>` mendefinisikan cell dari suatu table
+
+## Selector pada CSS
+
+> - Element selector (merefer ke semua elemen yang sesuai)
+
+```css
+h1 {
+}
+```
+
+> - Class selector (merefer ke semua elemen yang memiliki attribute class yang sesuai)
+
+```css
+.box {
+}
+```
+
+> - Id selector (merefer ke suatu elemen yang memiliki attribute id yang sesuai)
+
+```css
+#unique {
+}
+```
+
+> - Attribute selector (merefer ke suatu elemen dan mempunyai suatu attribute tertentu)
+
+```css
+a[title] {
+}
+```
+
+> - Pseudo-class selector (merefer ke suatu elemen dengan berbagai state yang mungkin dari suatu elemen) contoh berikut akan muncul ketika elemen tersebut kita hover dengan mouse pointer kita
+
+```css
+a:hover {
+}
+```
+
+> - Pseudo-element selector (merefer ke suatu elemen yang hanya mencakup beberapa bagian dari suatu elemen) contoh berikut hanya akan memilih baris pertama saja dari text yang ada di elemen tersebut
+
+```css
+p::first-line {
+}
+```
+
+## Implementasi
+
+> - Menggunakan framework tailwindcss dan daisyUI dalam menstyling web. Pertama import Content Delivery Network (CDN) dari tailwindcss dan daisyUI dalam `<head>` yang terdapat pada file `base.html`
+
+```html
+<head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+```
+
+> - menggunakan class component navbar dari daisyUI
+> - menggunakan class component card dari daisyUI untuk setiap task yang ada
+> - melakukan styling di semua page pada todolist semenarik mungkin dengan menggunakan tailwindcss
+> - membuat tampilan rensponsive dengan menggunakan media breakpoint yang ada pada tailwindcss

@@ -13,3 +13,4 @@ urlpatterns = [
     path("update-task/<int:pk>", update_task, name="update_task"),
     path("delete-task/<int:pk>", delete_task, name="delete_task"),
 ]
+
