@@ -35,18 +35,21 @@
   >
     <form
       method="POST"
-      class="w-3/4 mt-7 flex flex-col items-center gap-y-5 text-xl"
+      class="w-full flex flex-col items-center gap-y-3"
     >
       {% csrf_token %}
 
-      <h1 class="text-2xl md:text-3xl font-bold">Login</h1>
+      <div class="py-3 w-full flex justify-center rounded-t-xl bg-base-300 ">
+        <h1 class="text-lg md:text-xl font-bold">Login</h1>
+      </div>
+      
 
       <div
-        class="flex flex-col items-start gap-y-1 w-full text-sm md:text-base"
+        class="flex flex-col items-start gap-y-1 w-3/4 text-sm md:text-base"
       >
         <label for="id_username" class="font-bold">Username</label>
         <input
-          class="input input-bordered w-full"
+          class="input input-bordered w-full rounded-2xl"
           type="text"
           name="username"
           placeholder="username"
@@ -56,11 +59,11 @@
         />
       </div>
       <div
-        class="flex flex-col items-start gap-y-1 w-full text-sm md:text-base"
+        class="flex flex-col items-start gap-y-1 w-3/4 text-sm md:text-base"
       >
         <label for="id_password" class="font-bold">Password</label>
         <input
-          class="input input-bordered w-full"
+          class="input input-bordered w-full rounded-2xl"
           type="password"
           name="password"
           placeholder="password"
@@ -69,7 +72,7 @@
           id="id_password"
         />
       </div>
-      <label role="button" class="w-full mb-5 btn text-sm md:text-base"
+      <label role="button" class="w-3/4 mt-3 mb-5 btn text-xs md:text-sm"
         ><button type="submit" class="w-full uppercase">login</button></label
       >
       <p class="mb-3 text-sm">

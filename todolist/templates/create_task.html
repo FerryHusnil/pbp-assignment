@@ -30,66 +30,63 @@
   </div>
   {% endif %}
   <div
-    class="w-2/3 h-5/6 max-w-sm my-14 flex flex-col items-center border border-none rounded-xl shadow-xl bg-neutral-800"
+    class="w-2/3 h-5/6 relative max-w-sm my-14 flex flex-col items-center border border-none rounded-xl shadow-xl bg-neutral-800"
   >
-    <div class="mt-3 mr-3 flex self-end">
-      <a
-        role="button"
-        href="{% url 'todolist:show_todolist' %}"
-        class="btn btn-square btn-sm"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-          />
-        </svg>
-      </a>
-    </div>
     <form
       method="POST"
-      class="w-3/4 flex flex-col items-center gap-y-3 text-xl"
+      class="w-full flex flex-col items-center gap-y-3 text-xl"
     >
       {% csrf_token %}
-
-      <h1 class="text-2xl md:text-3xl font-bold">Create Task</h1>
+      <div class="py-3 w-full flex flex-row justify-center items-center bg-base-300 rounded-t-xl">
+        <h1 class="text-lg md:text-xl font-bold">Create Task</h1>
+        <a
+          role="button"
+          href="{% url 'todolist:show_todolist' %}"
+          class="btn btn-square btn-xs absolute right-5"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+            />
+          </svg>
+        </a>
+      </div>
 
       <div
-        class="flex flex-col items-start gap-y-1 w-full text-sm md:text-base"
+        class="flex flex-col items-start gap-y-1 w-5/6 text-sm md:text-base"
       >
         <label for="id_title" class="font-bold">Title</label>
         <input
-          class="input input-bordered w-full"
+          class="input input-bordered w-full rounded-2xl bg-base-100"
           type="text"
           name="title"
-          placeholder="add title"
           maxlength="50"
           required=""
           id="id_title"
         />
       </div>
       <div
-        class="flex flex-col items-start gap-y-1 w-full text-sm md:text-base"
+        class="flex flex-col items-start gap-y-1 w-5/6 text-sm md:text-base"
       >
         <label for="id_description" class="font-bold">Description</label>
         <textarea
-          class="textarea textarea-bordered w-full h-60"
+          class="textarea textarea-bordered w-full h-60 rounded-2xl"
           name="description"
-          placeholder="add description"
           maxlength="1000"
           required=""
           id="id_description"
         ></textarea>
       </div>
-      <div class="mb-5 flex justify-end w-full">
+      <div class="mb-5 flex justify-end w-5/6">
         <label role="button" class="btn btn-sm text-sm md:btn-md md:text-base"
           ><button type="submit" class="w-full uppercase">create</button></label
         >

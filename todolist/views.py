@@ -52,7 +52,7 @@ def register(request):
             messages.success(request, "Account Created Successfully")
             return redirect("todolist:login")
         else:
-            messages.error(request, "Failed Create Account")
+            messages.error(request, form.errors)
     else:
         form = UserCreationForm()
     context = {"form": form}
