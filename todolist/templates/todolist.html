@@ -22,6 +22,8 @@
           dataType: "json",
           success: (data) => {
             $("#outside-modal").click();
+            $("#id_title").val("");
+            $("#id_description").val("");
 
             showTask(data);
           },
