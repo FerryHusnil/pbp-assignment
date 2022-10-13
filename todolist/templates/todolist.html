@@ -10,9 +10,31 @@
     $.get(window.location.href + "json", showTask);
   }
 
+  function submitTask() {
+      $("#submit-task").submit(function (e) {
+        e.preventDefault();
+        var actionURL = "/todolist/add";
+        var formData = $(this).serialize();
+        $.ajax({
+          url: actionURL,
+          type: "POST",
+          data: formData,
+          dataType: "json",
+          success: (data) => {
+            $("#outside-modal").click();
+
+            showTask(data);
+          },
+          error: (error) => {
+            console.log(error);
+            alert("Error!");
+          },
+        });
+      });
+    }
+
   function showTask(data) {
     const placeholder = $("#show-task");
-    console.log(data);
     placeholder.empty();
 
     if (data != undefined && data.length > 0) {
@@ -110,30 +132,7 @@
       );
     }
 
-    function submitTask() {
-      $("#submit-task").submit(function (e) {
-        console.log(e);
-        e.preventDefault();
-        var actionURL = "/todolist/add";
-        var formData = $(this).serialize();
-        $.ajax({
-          url: actionURL,
-          type: "POST",
-          data: formData,
-          dataType: "json",
-          success: (data) => {
-            $("#close-task-modal").click();
-
-            // console.log(data);
-            showTask(data);
-          },
-          error: (error) => {
-            console.log(error);
-            alert("Error!");
-          },
-        });
-      });
-    }
+    
   }
 </script>
 {% endblock meta %} {% block content %}
@@ -180,7 +179,7 @@
       >
 
       <input type="checkbox" id="modal-create-task" class="modal-toggle" />
-      <label for="modal-create-task" class="modal cursor-pointer">
+      <label id="outside-modal" for="modal-create-task" class="modal cursor-pointer">
         <label
           class="modal-box relative w-2/3 p-0 relative max-w-sm my-14 flex flex-col items-center border border-none rounded-xl shadow-xl bg-neutral-800"
           for=""
