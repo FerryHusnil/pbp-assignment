@@ -49,7 +49,7 @@ def delete_task(request, pk):
 @login_required(login_url="/todolist/login")
 def show_todolist_json(request):
     data = Task.objects.filter(user=request.user)
-    return HttpResponse(serializers.serialize("json", data), content_type="application/json");
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 @login_required(login_url="/todolist/login")
 def create_task_ajax(request):
@@ -64,7 +64,7 @@ def create_task_ajax(request):
     else:
         form = TaskForm()
     context = {"form": form}
-    return HttpResponse("only POST method allowed!");
+    return HttpResponse("only POST method allowed!")
 
 def register(request):
     if request.method == "POST":
