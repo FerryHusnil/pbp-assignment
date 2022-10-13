@@ -1,4 +1,142 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% block meta %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  function fetchTask() {
+    $.get(window.location.href + "json", showTask);
+  }
+
+  function showTask(data) {
+    const placeholder = $("#show-task");
+    console.log(data);
+    placeholder.empty();
+
+    if (data != undefined && data.length > 0) {
+      data.forEach(function (task) {
+        placeholder.append(`<div
+    class="card w-full bg-neutral-800 shadow-xl transform transition hover:scale-105 hover:bg-opacity-95 duration-200"
+  >
+    <div class="card-body">
+      <div class="card-actions justify-end">
+        <label
+          for="modal-close-${task.pk}"
+          class="btn btn-square btn-sm modal-button"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+            />
+          </svg>
+        </label>
+      </div>
+      <h2 class="card-title text-2xl md:text-3xl">${task.fields.title}</h2>
+      <p class="text-xs md:text-sm">${task.fields.date}</p>
+      <p class="text-sm md:text-lg break-words">${task.fields.description}</p>
+      <div class="card-actions justify-end">
+        ${
+          task.fields.is_finished
+            ? `<a
+          href="/todolist/update-task/${task.pk}"
+          role="button"
+          class="btn btn-primary btn-sm text-sm md:btn-md md:text-base"
+          >done!</a
+        >`
+            : `<a
+          href="/todolist/update-task/${task.pk}"
+          role="button"
+          class="btn btn-sm text-sm md:btn-md md:text-base"
+          >mark as done!</a
+        >`
+        }
+      </div>
+    </div>
+  </div>
+  <input type="checkbox" id="modal-close-${task.pk}" class="modal-toggle" />
+  <div class="modal modal-middle">
+    <div class="modal-box">
+      <div class="flex flex-row justify-end">
+        <label
+          for="modal-close-${task.pk}"
+          class="btn btn-sm btn-square right-2 top-2"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            /></svg
+        ></label>
+      </div>
+
+      <h3 class="text-lg font-bold">Your task will permanently deleted</h3>
+      <p class="py-4">are you sure?</p>
+      <div class="modal-action mt-10">
+        <a
+          href="/todolist/delete-task/${task.pk}"
+          class="btn btn-warning hover:bg-opacity-70"
+          >delete</a
+        >
+        <label
+          for="modal-close-${task.pk}"
+          class="btn btn-primary hover:bg-opacity-70"
+          >cancel</label
+        >
+      </div>
+    </div>
+  </div>`);
+      });
+    } else {
+      placeholder.append(
+        `<p id="empty-task-notice" class="text-2xl text-slate-700 font-bold text-center my-20"> Kamu belum punya todo list, yukk mulai buat!</p>`
+      );
+    }
+
+    function submitTask1() {
+      $("#submit-task").submit(function (e) {
+        console.log(e);
+        e.preventDefault();
+        var actionURL = "/todolist/add";
+        var formData = $(this).serialize();
+        $.ajax({
+          url: actionURL,
+          type: "POST",
+          data: formData,
+          dataType: "json",
+          success: (data) => {
+            $("#close-task-modal").click();
+
+            // console.log(data);
+            showTask(data);
+          },
+          error: (error) => {
+            console.log(error);
+            alert("Error!");
+          },
+        });
+      });
+    }
+  }
+
+  $(document).ready(function () {
+    fetchTask();
+    submitTask1();
+  });
+</script>
+{% endblock meta %} {% block content %}
 
 <main
   class="min-h-screen max-w-screen flex flex-col items-center gap-y-10 mt-5"
@@ -34,114 +172,72 @@
       <h1 class="text-xl font-bold text-primary">
         <span class="text-3xl text-secondary">{{username}}</span>'s todolist
       </h1>
-      <a
-        href="{% url 'todolist:create_task' %}"
+      <label
+        for="modal-create-task"
         role="button"
         class="btn btn-primary btn-sm text-sm md:btn-md md:text-base"
-        >Create Task</a
+        >Create Task</label
       >
+
+      <input type="checkbox" id="modal-create-task" class="modal-toggle" />
+      <label for="modal-create-task" class="modal cursor-pointer">
+        <label
+          class="modal-box relative w-2/3 p-0 relative max-w-sm my-14 flex flex-col items-center border border-none rounded-xl shadow-xl bg-neutral-800"
+          for=""
+        >
+          <form
+            method="POST"
+            class="w-full flex flex-col items-center gap-y-3 text-xl"
+            id="submit-task"
+            action="add"
+          >
+            {% csrf_token %}
+            <div
+              class="py-3 w-full flex flex-row justify-center items-center bg-base-300 rounded-t-xl"
+            >
+              <h1 class="text-lg md:text-xl font-bold">Create Task</h1>
+            </div>
+
+            <div
+              class="mt-4 flex flex-col items-start gap-y-1 w-5/6 text-sm md:text-base"
+            >
+              <label for="id_title" class="font-bold">Title</label>
+              <input
+                class="input input-bordered w-full rounded-2xl bg-base-100"
+                type="text"
+                name="title"
+                maxlength="50"
+                required=""
+                id="id_title"
+              />
+            </div>
+            <div
+              class="flex flex-col items-start gap-y-1 w-5/6 text-sm md:text-base"
+            >
+              <label for="id_description" class="font-bold">Description</label>
+              <textarea
+                class="textarea textarea-bordered w-full h-60 rounded-2xl"
+                name="description"
+                maxlength="1000"
+                required=""
+                id="id_description"
+              ></textarea>
+            </div>
+            <div class="mb-5 flex justify-end w-5/6">
+              <label
+                role="button"
+                class="btn btn-sm text-sm md:btn-md md:text-base"
+                ><button type="submit" class="w-full uppercase">
+                  create
+                </button></label
+              >
+            </div>
+          </form>
+        </label>
+      </label>
     </div>
 
-    {% if created %}
-    <div class="my-10 flex flex-col items-center gap-y-10">
-      {% for task in tasks %}
-      <div
-        class="card w-full bg-neutral-800 shadow-xl transform transition hover:scale-105 hover:bg-opacity-95 duration-200"
-      >
-        <div class="card-body">
-          <div class="card-actions justify-end">
-            <label
-              for="modal-close-{{task.pk}}"
-              class="btn btn-square btn-sm modal-button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                />
-              </svg>
-            </label>
-          </div>
-          <h2 class="card-title text-2xl md:text-3xl">{{task.title}}</h2>
-          <p class="text-xs md:text-sm">{{task.date}}</p>
-          <p class="text-sm md:text-lg break-words">{{task.description}}</p>
-          <div class="card-actions justify-end">
-            {% if task.is_finished %}
-            <a
-              href="{% url 'todolist:update_task' task.pk %}"
-              role="button"
-              class="btn btn-primary btn-sm text-sm md:btn-md md:text-base"
-              >done!</a
-            >
-            {% else %}
-            <a
-              href="{% url 'todolist:update_task' task.pk %}"
-              role="button"
-              class="btn btn-sm text-sm md:btn-md md:text-base"
-              >mark as done!</a
-            >
-            {% endif %}
-          </div>
-        </div>
-      </div>
-      <input
-        type="checkbox"
-        id="modal-close-{{task.pk}}"
-        class="modal-toggle"
-      />
-      <div class="modal modal-middle">
-        <div class="modal-box">
-          <div class="flex flex-row justify-end">
-            <label
-              for="modal-close-{{task.pk}}"
-              class="btn btn-sm btn-square right-2 top-2"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                /></svg
-            ></label>
-          </div>
-
-          <h3 class="text-lg font-bold">Your task will permanently deleted</h3>
-          <p class="py-4">are you sure?</p>
-          <div class="modal-action mt-10">
-            <a
-              href="{% url 'todolist:delete_task' task.id %}"
-              class="btn btn-warning hover:bg-opacity-70"
-              >delete</a
-            >
-            <label
-              for="modal-close-{{task.pk}}"
-              class="btn btn-primary hover:bg-opacity-70"
-              >cancel</label
-            >
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-    {% else %}
-    <h3 class="mt-10 text-2xl text-center font-bold">
-      Kamu masih belum membuat task
-    </h3>
-    {% endif %}
+    <div id="show-task" class="my-10 flex flex-col items-center gap-y-10"></div>
   </div>
 </main>
 {% endblock content %}

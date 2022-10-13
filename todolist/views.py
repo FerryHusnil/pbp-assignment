@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, models as auth_models
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.core import serializers
 
 # Create your views here.
 @login_required(login_url="/todolist/login")
@@ -43,6 +45,26 @@ def delete_task(request, pk):
     task.delete()
     messages.success(request, "Task Deleted Successfully")
     return redirect("todolist:show_todolist")
+
+@login_required(login_url="/todolist/login")
+def show_todolist_json(request):
+    data = Task.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json");
+
+@login_required(login_url="/todolist/login")
+def create_task_ajax(request):
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user = auth_models.User.objects.get(pk=request.user.id)
+            task.save()
+            tasks = Task.objects.filter(user=request.user)
+            return HttpResponse(serializers.serialize("json", tasks), content_type="application/json")
+    else:
+        form = TaskForm()
+    context = {"form": form}
+    return HttpResponse("only POST method allowed!");
 
 def register(request):
     if request.method == "POST":
